@@ -46,7 +46,7 @@ const Contact = () => {
             label: "LinkedIn",
           },
           {
-            href: "https://www.instagram.com/yourinstagram",
+            href: "https://www.instagram.com/tylerrhuynh",
             icon: <Instagram />,
             label: "Instagram",
           },
