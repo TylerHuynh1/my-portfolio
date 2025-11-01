@@ -1,9 +1,10 @@
-import { Home, User, Briefcase, FileText, Mail } from "lucide-react";
+import { Home, User, Briefcase, FileText, Mail, Building } from "lucide-react";
 
 const Navigation = ({ selectedTab, setSelectedTab }) => {
   const tabs = [
     { name: "Home", icon: <Home size={16} /> },
     { name: "About Me", icon: <User size={16} /> },
+    { name: "Experience", icon: <Building size={16} /> },
     { name: "Projects", icon: <Briefcase size={16} /> },
     { name: "Resume", icon: <FileText size={16} /> },
     { name: "Contact", icon: <Mail size={16} /> },

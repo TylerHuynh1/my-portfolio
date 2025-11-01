@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import AboutMe from "./AboutMe";
+import Experience from "./Experience";
 import Projects from "../pages/Projects";
 import Resume from "./Resume";
 import Contact from "./Contact";
@@ -44,6 +45,8 @@ const MainContent = ({ selectedTab }) => {
         );
       case "About Me":
         return <AboutMe key="AboutMe" />;
+      case "Experience":
+        return <Experience key="Experience" />;
       case "Projects":
         return <Projects key="Projects" />;
       case "Resume":
