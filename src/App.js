@@ -7,9 +7,9 @@ const App = () => {
   const [selectedTab, setSelectedTab] = useState("Home");
 
   return (
-    <div className="relative min-h-screen bg-gray-900 text-white">
+    <div className="relative min-h-screen bg-gray-900 text-white overflow-hidden">
       <BoidsBackground />
-      <div className="absolute inset-0 flex justify-center items-center p-2 sm:p-4 lg:p-8">
+      <div className="absolute inset-0 flex justify-center items-center p-2 sm:p-4 lg:p-8" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="border border-gray-700 w-full max-w-8xl h-[calc(100vh-1rem)] sm:h-[calc(100vh-2rem)] lg:h-[90vh] flex relative z-10 bg-gray-900 bg-opacity-80 overflow-hidden">
           <Navigation
             selectedTab={selectedTab}

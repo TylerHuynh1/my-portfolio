@@ -23,6 +23,7 @@ const Navigation = ({ selectedTab, setSelectedTab }) => {
       {/* Mobile Menu Button */}
       <button
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 rounded-lg text-white"
+        style={{ marginTop: "env(safe-area-inset-top)" }}
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
       >
         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

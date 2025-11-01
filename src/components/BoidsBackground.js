@@ -2,14 +2,22 @@ import { useEffect, useRef } from "react";
 
 export default function BoidsBackground() {
   const canvasRef = useRef(null);
+  const animationRef = useRef(null);
   const numBoids = 100; // Adjust number of boids
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // Fill canvas with background color initially
+      ctx.fillStyle = "#111827";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    };
+    
+    resizeCanvas();
 
     const boids = Array.from({ length: numBoids }, () => ({
       x: Math.random() * canvas.width,
@@ -19,7 +27,9 @@ export default function BoidsBackground() {
     }));
 
     function updateBoids() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Fill with background color instead of clearing
+      ctx.fillStyle = "#111827";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       boids.forEach((boid, i) => {
         let alignX = 0,
@@ -76,18 +86,30 @@ export default function BoidsBackground() {
         ctx.fill();
       });
 
-      requestAnimationFrame(updateBoids);
+      animationRef.current = requestAnimationFrame(updateBoids);
     }
 
     updateBoids();
 
-    return () => cancelAnimationFrame(updateBoids);
+    const handleResize = () => {
+      resizeCanvas();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full pointer-events-none"
+      className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      style={{ backgroundColor: "#111827" }}
     />
   );
 }
