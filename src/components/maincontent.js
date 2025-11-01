@@ -5,6 +5,7 @@ import Resume from "./Resume";
 import Contact from "./Contact";
 
 const MainContent = ({ selectedTab }) => {
+  const isMobile = window.innerWidth < 1024;
   const renderContent = () => {
     switch (selectedTab) {
       case "Home":
@@ -59,10 +60,10 @@ const MainContent = ({ selectedTab }) => {
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, x: isMobile ? 100 : 0, y: isMobile ? 0 : 20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, x: isMobile ? -100 : 0, y: isMobile ? 0 : -20 }}
+          transition={{ duration: isMobile ? 0.3 : 0.4, ease: "easeInOut" }}
           className="w-full"
         >
           {renderContent()}
