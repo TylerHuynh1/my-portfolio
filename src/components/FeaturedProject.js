@@ -2,30 +2,36 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const slideVariants = {
-  enter: { opacity: 0, scale: 0.95 },
+  enter: (direction) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0
+  }),
   center: {
+    x: 0,
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.4, ease: "easeInOut" },
+    transition: { duration: 0.3, ease: "easeOut" }
   },
-  exit: {
+  exit: (direction) => ({
+    x: direction < 0 ? 300 : -300,
     opacity: 0,
-    scale: 0.95,
-    transition: { duration: 0.3, ease: "easeInOut" },
-  },
+    transition: { duration: 0.3, ease: "easeIn" }
+  })
 };
 
 const FeaturedProject = ({ project }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   const current = project.pages?.[currentPageIndex];
 
   const nextPage = useCallback(() => {
+    setDirection(1);
     setCurrentPageIndex((prev) => (prev + 1) % project.pages.length);
   }, [project.pages.length]);
 
   const prevPage = useCallback(() => {
+    setDirection(-1);
     setCurrentPageIndex((prev) =>
       prev === 0 ? project.pages.length - 1 : prev - 1
     );
@@ -107,50 +113,66 @@ const FeaturedProject = ({ project }) => {
               exit={{ y: 100 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentPageIndex}
-                  className="w-full"
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                >
-                  <img
-                    src={current.image}
-                    alt={`Page ${currentPageIndex + 1}`}
-                    className="w-full rounded-md mb-4"
-                  />
-                  <p className="text-white text-center text-sm sm:text-base lg:text-lg mb-4 px-2 sm:px-0">
-                    {current.description}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+              <div className="relative">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={currentPageIndex}
+                    className="w-full"
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                  >
+                    <img
+                      src={current.image}
+                      alt={`Page ${currentPageIndex + 1}`}
+                      className="w-full rounded-md mb-3"
+                      loading="lazy"
+                    />
+                    <p className="text-white text-center text-sm sm:text-base lg:text-lg mb-3 px-2 sm:px-0">
+                      {current.description}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
 
-              <div className="flex justify-between mb-4 px-2 sm:px-0">
+              <div className="flex justify-between items-center mb-2 px-2 sm:px-0">
                 <button
                   onClick={prevPage}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-sm sm:text-base"
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-sm sm:text-base transition-colors"
+                  aria-label="Previous image"
                 >
-                  Previous
+                  ← Previous
                 </button>
+                
+                <span className="text-gray-400 text-sm">
+                  {currentPageIndex + 1} / {project.pages.length}
+                </span>
+                
                 <button
                   onClick={nextPage}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-sm sm:text-base"
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-sm sm:text-base transition-colors"
+                  aria-label="Next image"
                 >
-                  Next
+                  Next →
                 </button>
               </div>
 
-              <div className="flex justify-center gap-1.5 sm:gap-2 mb-2">
+              <div className="flex justify-center gap-1.5 sm:gap-2">
                 {project.pages.map((_, idx) => (
-                  <div
+                  <button
                     key={idx}
-                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full ${
+                    onClick={() => {
+                      setDirection(idx > currentPageIndex ? 1 : -1);
+                      setCurrentPageIndex(idx);
+                    }}
+                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full transition-all ${
                       idx === currentPageIndex
-                        ? "bg-blue-500"
-                        : "bg-gray-500/40"
+                        ? "bg-blue-500 w-6 sm:w-8"
+                        : "bg-gray-500/40 hover:bg-gray-400/60"
                     }`}
+                    aria-label={`Go to slide ${idx + 1}`}
                   />
                 ))}
               </div>
