@@ -51,8 +51,8 @@ const FeaturedProject = ({ project }) => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-        <div className="relative w-full md:w-3/4 border-4 border-gray-700 rounded-xl overflow-hidden shadow-lg aspect-video">
+      <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6 lg:gap-8 mb-8 lg:mb-12">
+        <div className="relative w-full lg:w-3/4 border-2 sm:border-4 border-gray-700 rounded-lg sm:rounded-xl overflow-hidden shadow-lg aspect-video">
           <motion.button
             onClick={() => setIsModalOpen(true)}
             className="w-full h-full relative text-left"
@@ -73,18 +73,18 @@ const FeaturedProject = ({ project }) => {
         </div>
 
         <motion.div
-          className="md:w-1/2 text-center md:text-left"
+          className="w-full lg:w-1/2 text-center lg:text-left px-4 sm:px-0"
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-3xl font-bold">{project.title}</h2>
-          <p className="text-gray-300 text-lg mt-3">{project.description}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold">{project.title}</h2>
+          <p className="text-gray-300 text-sm sm:text-base lg:text-lg mt-2 sm:mt-3">{project.description}</p>
           <a
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white text-lg py-2 px-4 rounded-lg"
+            className="mt-3 sm:mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white text-base sm:text-lg py-2 px-4 rounded-lg"
           >
             View Project
           </a>
@@ -101,7 +101,7 @@ const FeaturedProject = ({ project }) => {
             onClick={closeModal}
           >
             <motion.div
-              className="bg-gray-900 rounded-lg p-6 max-w-3xl w-full relative overflow-hidden"
+              className="bg-gray-900 rounded-lg p-4 sm:p-6 max-w-3xl w-[90%] sm:w-full mx-4 relative overflow-hidden"
               initial={{ y: 100 }}
               animate={{ y: 0 }}
               exit={{ y: 100 }}
@@ -121,32 +121,32 @@ const FeaturedProject = ({ project }) => {
                     alt={`Page ${currentPageIndex + 1}`}
                     className="w-full rounded-md mb-4"
                   />
-                  <p className="text-white text-center text-lg mb-4">
+                  <p className="text-white text-center text-sm sm:text-base lg:text-lg mb-4 px-2 sm:px-0">
                     {current.description}
                   </p>
                 </motion.div>
               </AnimatePresence>
 
-              <div className="flex justify-between mb-4">
+              <div className="flex justify-between mb-4 px-2 sm:px-0">
                 <button
                   onClick={prevPage}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-sm sm:text-base"
                 >
                   Previous
                 </button>
                 <button
                   onClick={nextPage}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-sm sm:text-base"
                 >
                   Next
                 </button>
               </div>
 
-              <div className="flex justify-center gap-2 mb-2">
+              <div className="flex justify-center gap-1.5 sm:gap-2 mb-2">
                 {project.pages.map((_, idx) => (
                   <div
                     key={idx}
-                    className={`w-3 h-3 rounded-full ${
+                    className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full ${
                       idx === currentPageIndex
                         ? "bg-blue-500"
                         : "bg-gray-500/40"

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const ProjectCard = ({ title, description, techStack, image, link, index }) => (
   <motion.div
-    className="flex flex-col justify-between bg-gray-800 p-6 rounded-xl shadow-md"
+    className="flex flex-col justify-between bg-gray-800 p-4 sm:p-6 rounded-lg sm:rounded-xl shadow-md h-full"
     initial={{ opacity: 0, scale: 0.95 }}
     whileInView={{ opacity: 1, scale: 1 }}
     viewport={{ once: true }}
@@ -16,16 +16,16 @@ const ProjectCard = ({ title, description, techStack, image, link, index }) => (
     <div className="flex-grow">
       {/* Image or placeholder */}
       <a href={link} target="_blank" rel="noopener noreferrer">
-        <div className="border-2 border-gray-600 rounded-md overflow-hidden mb-4 h-48 flex items-center justify-center text-gray-400 text-sm">
+        <div className="border-2 border-gray-600 rounded-md overflow-hidden mb-3 sm:mb-4 h-32 sm:h-48 flex items-center justify-center text-gray-400 text-sm">
           <img src={image} alt={title} className="w-full h-full object-cover" />
         </div>
       </a>
 
       {/* Title */}
-      <h3 className="text-2xl font-semibold text-white mb-2">{title}</h3>
+      <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-2">{title}</h3>
 
       {/* Description */}
-      <p className="text-gray-300 text-sm">{description}</p>
+      <p className="text-gray-300 text-xs sm:text-sm">{description}</p>
 
       {/* Tech Stack */}
       <div className="flex flex-wrap gap-2 mt-3">
@@ -45,7 +45,7 @@ const ProjectCard = ({ title, description, techStack, image, link, index }) => (
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-6 inline-block bg-gray-700 hover:bg-gray-600 text-white text-sm py-2 px-4 rounded-lg"
+      className="mt-4 sm:mt-6 inline-block bg-gray-700 hover:bg-gray-600 text-white text-xs sm:text-sm py-2 px-3 sm:px-4 rounded-lg text-center"
     >
       View Project
     </a>

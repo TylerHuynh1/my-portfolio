@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 const Contact = () => {
   return (
     <motion.div
-      className="w-4/5 flex flex-col justify-center items-center text-center p-8 sm:p-16"
+      className="w-full sm:w-4/5 flex flex-col justify-center items-center text-center p-4 sm:p-8 lg:p-16"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
       <motion.h2
-        className="text-4xl sm:text-5xl font-bold mb-6 text-white"
+        className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-white"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

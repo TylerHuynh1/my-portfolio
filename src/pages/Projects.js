@@ -92,14 +92,16 @@ const Projects = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="p-8 w-4/5 flex flex-col justify-center items-center text-center"
+      className="p-4 sm:p-6 lg:p-8 w-full flex flex-col items-center text-center overflow-y-auto max-h-full"
     >
-      <FeaturedProject project={featuredProject} />
+      <div className="w-full max-w-6xl">
+        <FeaturedProject project={featuredProject} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-10">
-        {otherProjects.map((project, index) => (
-          <ProjectCard key={project.id} {...project} index={index} />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 w-full">
+          {otherProjects.map((project, index) => (
+            <ProjectCard key={project.id} {...project} index={index} />
+          ))}
+        </div>
       </div>
     </motion.div>
   );

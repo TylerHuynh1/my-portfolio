@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 const Resume = () => {
   return (
     <motion.div
-      className="w-4/5 flex flex-col justify-center items-center text-center p-8 sm:p-12"
+      className="w-full sm:w-4/5 flex flex-col justify-center items-center text-center p-4 sm:p-8 lg:p-12"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
       {/* Heading */}
       <motion.h2
-        className="text-4xl sm:text-5xl font-bold text-white mb-6"
+        className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -21,7 +21,7 @@ const Resume = () => {
 
       {/* Description */}
       <motion.p
-        className="text-gray-400 text-md sm:text-lg mb-8 max-w-xl"
+        className="text-gray-400 text-sm sm:text-base lg:text-lg mb-6 sm:mb-8 max-w-xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -37,7 +37,7 @@ const Resume = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.97 }}
         transition={{ type: "spring", stiffness: 300 }}
-        className="flex items-center gap-3 bg-blue-500 hover:bg-blue-600 text-white text-lg sm:text-2xl py-3 px-6 rounded-lg shadow-lg"
+        className="flex items-center gap-2 sm:gap-3 bg-blue-500 hover:bg-blue-600 text-white text-base sm:text-lg lg:text-2xl py-2 sm:py-3 px-4 sm:px-6 rounded-lg shadow-lg"
       >
         <FileText size={24} />
         Download Resume

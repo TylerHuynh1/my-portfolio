@@ -55,7 +55,7 @@ const MainContent = ({ selectedTab }) => {
   };
 
   return (
-    <div className="w-4/5 flex flex-col justify-center items-center text-center p-8 sm:p-16 h-full">
+    <div className="w-full lg:w-4/5 flex flex-col justify-center items-center text-center p-4 sm:p-8 lg:p-16 h-full overflow-y-auto">
       <AnimatePresence mode="wait">
         <motion.div
           key={selectedTab}
