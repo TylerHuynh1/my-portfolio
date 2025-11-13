@@ -4,10 +4,90 @@ import { useNavigate } from "react-router-dom";
 import FeaturedProject from "../components/FeaturedProject";
 import ProjectCard from "../components/ProjectCard";
 import { Edit } from "lucide-react";
+import { API_URL, isDevelopment } from "../config";
+
+// Fallback data for production (when API is not available)
+const FALLBACK_PROJECTS = {
+  featuredProject: {
+    title: "Scholar Knights",
+    description:
+      "A MERN stack web app that helps UCF students find and join study groups based on classes and interests.",
+    image: "/scholar-knights-home.png",
+    link: "https://github.com/kalypso2/scholar-knights/tree/Live-Server",
+    pages: [
+      {
+        image: "/scholar-knights-login.png",
+        description:
+          "Secure login screen with UCF email verification to ensure only registered students can access the platform.",
+      },
+      {
+        image: "/scholar-knights-signup.png",
+        description:
+          "User registration form where students can create an account using their full name, email, and password, followed by a verification step.",
+      },
+      {
+        image: "/scholar-knights-home.png",
+        description:
+          "Main landing dashboard after login, displaying quick navigation to join sessions, view profile, and explore courses.",
+      },
+      {
+        image: "/scholar-knights-courses.png",
+        description:
+          "Courses page allowing users to view, add, and manage the classes they're enrolled in. These courses are used to filter relevant study sessions.",
+      },
+      {
+        image: "/scholar-knights-find-session.png",
+        description:
+          "Search and filter screen where users can browse all available study sessions by course, tags, date, and mode (online/in-person).",
+      },
+      {
+        image: "/scholar-knights-joined.png",
+        description:
+          "Shows a personalized list of all study sessions the user has joined or requested to join, with options to view details or leave.",
+      },
+      {
+        image: "/scholar-knights-create-session.png",
+        description:
+          "Session creation form where users can specify a title, description, location, course, date/time, tags, and privacy level (public or private).",
+      },
+      {
+        image: "/scholar-knights-approve.png",
+        description:
+          "Management interface for session creators to review incoming join requests, approve or deny them, and monitor attendee lists.",
+      },
+      {
+        image: "/scholar-knights-profile.png",
+        description:
+          "User profile page that displays and allows editing of profile details such as name, username, bio, and enrolled courses.",
+      },
+    ],
+  },
+  otherProjects: [
+    {
+      id: 1,
+      title: "Portfolio Website",
+      description:
+        "A responsive personal portfolio built with React and Tailwind.",
+      techStack: ["React", "Tailwind"],
+      image: "/portfolio-home.png",
+      link: "https://github.com/TylerHuynh1/my-portfolio",
+    },
+    {
+      id: 2,
+      title: "Contact Cloud",
+      description:
+        "A contact management app built with the LAMP stack (Linux, Apache, MySQL, PHP) supporting full CRUD operations.",
+      techStack: ["HTML", "CSS", "JavaScript", "Tailwind"],
+      image: "/contact-cloud.png",
+      link: "https://github.com/TylerHuynh1/Contact-Cloud",
+    },
+  ],
+};
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [usingFallback, setUsingFallback] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,16 +96,43 @@ const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/projects");
+      const response = await fetch(`${API_URL}/api/projects`, {
+        signal: AbortSignal.timeout(3000), // 3 second timeout
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch projects");
       }
       const data = await response.json();
       setProjects(data);
+      setUsingFallback(false);
     } catch (error) {
-      console.error("Error fetching projects:", error);
-      // Fallback to empty array if API fails
-      setProjects([]);
+      console.log("API not available, using fallback data");
+      // Convert fallback data to API format
+      const fallbackData = [
+        {
+          id: 1,
+          title: FALLBACK_PROJECTS.featuredProject.title,
+          description: FALLBACK_PROJECTS.featuredProject.description,
+          link: FALLBACK_PROJECTS.featuredProject.link,
+          mainImage: FALLBACK_PROJECTS.featuredProject.image,
+          isFeatured: true,
+          techStack: ["MongoDB", "Express", "React", "Node.js"],
+          images: FALLBACK_PROJECTS.featuredProject.pages.map((page, idx) => ({
+            id: idx,
+            imagePath: page.image,
+            description: page.description,
+            order: idx,
+          })),
+        },
+        ...FALLBACK_PROJECTS.otherProjects.map((proj) => ({
+          ...proj,
+          mainImage: proj.image,
+          isFeatured: false,
+          images: [],
+        })),
+      ];
+      setProjects(fallbackData);
+      setUsingFallback(true);
     } finally {
       setLoading(false);
     }
@@ -64,14 +171,16 @@ const Projects = () => {
       transition={{ duration: 0.6 }}
       className="p-4 sm:p-6 lg:p-8 w-full flex flex-col items-center text-center overflow-y-auto max-h-full relative"
     >
-      {/* Edit Button - Fixed position */}
-      <button
-        onClick={() => navigate("/login")}
-        className="fixed top-4 right-4 z-50 bg-gray-800/80 hover:bg-gray-700/90 text-white p-3 rounded-full shadow-lg transition-all hover:scale-110 backdrop-blur-sm"
-        title="Edit Projects"
-      >
-        <Edit size={20} />
-      </button>
+      {/* Edit Button - Only show in development */}
+      {isDevelopment && (
+        <button
+          onClick={() => navigate("/login")}
+          className="fixed top-4 right-4 z-50 bg-gray-800/80 hover:bg-gray-700/90 text-white p-3 rounded-full shadow-lg transition-all hover:scale-110 backdrop-blur-sm"
+          title="Edit Projects"
+        >
+          <Edit size={20} />
+        </button>
+      )}
 
       <div className="w-full max-w-6xl">
         {featuredProject && (
@@ -95,7 +204,7 @@ const Projects = () => {
 
         {projects.length === 0 && (
           <div className="text-gray-400 text-center py-12">
-            No projects found. Add some from the admin panel!
+            No projects found.
           </div>
         )}
       </div>

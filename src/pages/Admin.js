@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 
 const Admin = () => {
   const [projects, setProjects] = useState([]);
@@ -29,7 +30,7 @@ const Admin = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/projects");
+      const response = await fetch(`${API_URL}/api/projects`);
       const data = await response.json();
       setProjects(data);
     } catch (error) {
@@ -74,8 +75,8 @@ const Admin = () => {
 
     try {
       const url = editingProject
-        ? `http://localhost:5000/api/projects/${editingProject.id}`
-        : "http://localhost:5000/api/projects";
+        ? `${API_URL}/api/projects/${editingProject.id}`
+        : `${API_URL}/api/projects`;
 
       const response = await fetch(url, {
         method: editingProject ? "PUT" : "POST",
@@ -132,7 +133,7 @@ const Admin = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+      const response = await fetch(`${API_URL}/api/projects/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
