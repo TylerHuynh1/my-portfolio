@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/navigation";
 import MainContent from "./components/maincontent";
 import BoidsBackground from "./components/BoidsBackground";
 import MobileNavigation from "./components/MobileNavigation";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
 import { Home, User, Briefcase, FileText, Mail, Building } from "lucide-react";
 
-const App = () => {
+const PortfolioLayout = () => {
   const [selectedTab, setSelectedTab] = useState("Home");
   const [isMobile, setIsMobile] = useState(false);
 
@@ -22,10 +25,10 @@ const App = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -34,12 +37,12 @@ const App = () => {
       <BoidsBackground />
       {isMobile ? (
         // Mobile Layout with Swipe Navigation
-        <div 
-          className="absolute inset-0 flex flex-col" 
+        <div
+          className="absolute inset-0 flex flex-col"
           style={{ paddingTop: 'env(safe-area-inset-top)' }}
         >
-          <MobileNavigation 
-            selectedTab={selectedTab} 
+          <MobileNavigation
+            selectedTab={selectedTab}
             setSelectedTab={setSelectedTab}
             tabs={tabs}
           >
@@ -63,6 +66,18 @@ const App = () => {
         </div>
       )}
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<PortfolioLayout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </Router>
   );
 };
 
