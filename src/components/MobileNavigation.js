@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const MobileNavigation = ({ selectedTab, setSelectedTab, tabs, children }) => {
   const [touchStart, setTouchStart] = useState(null);

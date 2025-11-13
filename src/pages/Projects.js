@@ -87,7 +87,6 @@ const FALLBACK_PROJECTS = {
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [usingFallback, setUsingFallback] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -96,15 +95,12 @@ const Projects = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/projects`, {
-        signal: AbortSignal.timeout(3000), // 3 second timeout
-      });
+      const response = await fetch(`${API_URL}/api/projects`);
       if (!response.ok) {
         throw new Error("Failed to fetch projects");
       }
       const data = await response.json();
       setProjects(data);
-      setUsingFallback(false);
     } catch (error) {
       console.log("API not available, using fallback data");
       // Convert fallback data to API format
@@ -132,7 +128,6 @@ const Projects = () => {
         })),
       ];
       setProjects(fallbackData);
-      setUsingFallback(true);
     } finally {
       setLoading(false);
     }
